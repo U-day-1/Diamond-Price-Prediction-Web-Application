@@ -1,3 +1,4 @@
+from flask import Flask
 from flask import Flask, request, jsonify, render_template
 import joblib
 import numpy as np
@@ -6,14 +7,18 @@ app = Flask(__name__)
 
 # Load the trained model
 model = joblib.load('diamond_price_predictor_model.pkl')
-
+image_filenames={'logo.png'}
 # Mapping for color and clarity
 color_mapping = {"D": 1, "E": 2, "F": 3, "G": 4, "H": 5, "I": 6, "J": 7}
 clarity_mapping = {"IF": 1, "VVS1": 2, "VVS2": 3, "VS1": 4, "VS2": 5, "SI1": 6, "SI2": 7, "I1": 8}
 
 @app.route('/')
+def landing_page():
+    return render_template('landing_page.html')
+
+@app.route('/home')
 def home():
-    return render_template('home.html')
+    return render_template('index.html')
 
 @app.route('/predict', methods=['POST'])
 def predict():
